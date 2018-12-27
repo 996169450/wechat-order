@@ -3,8 +3,6 @@ package com.hnu.wechatorder.dao;
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
 import com.hnu.wechatorder.model.OrderMaster;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 public interface OrderMasterMapper {
     int deleteByPrimaryKey(String orderId);
