@@ -9,6 +9,8 @@ spring:
 #    default-property-inclusion: non_null
 #  jpa:
 #    show-sql: true
+  jackson:
+    default-property-inclusion: non_null
 
 mybatis:
   configuration:
@@ -17,6 +19,10 @@ mybatis:
   type-aliases-package: com.hnu.wechatorder.model
 
 logging:
+  pattern:
+    console: "%d - %msg%n"
+#  path: /log/
+  file: /log/sell.log
   level:
     com.hnu.wechatorder.dao: trace
 
@@ -24,4 +30,12 @@ server:                      #url前缀
   servlet:
     context-path: /sell
 
+
+wechat:
+  mpAppId: wxc1db73949ccdeda5
+  mpAppSecret: 3f23472ffac3ff5859de597c0fae708d
+  mchId: 1409146202
+  mchKey: c97da54ddaqdwxxxxxxxxxxxxxxxxxx
+  keyPath: E:/weixin_cert/h5.p12
+  notifyUrl: http://sell.natpapp.cc/sell/pay/notify
 

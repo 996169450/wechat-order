@@ -2,7 +2,6 @@ package com.hnu.wechatorder.dao;
 
 import com.hnu.wechatorder.model.OrderDetail;
 import com.hnu.wechatorder.util.StringUtil;
-import org.aspectj.weaver.ast.Or;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
