@@ -17,6 +17,7 @@ import com.hnu.wechatorder.model.OrderMaster;
 import com.hnu.wechatorder.model.ProductInfo;
 import com.hnu.wechatorder.service.OrderService;
 import com.hnu.wechatorder.service.ProductService;
+import com.hnu.wechatorder.util.KeyUtil;
 import com.hnu.wechatorder.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -55,7 +56,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     @Transactional    //由于productService.decreaseStock(cartDTOList)子方法里面设置了事务，这里就不用再次设置了，会传播过来
     public OrderDTO create(OrderDTO orderDTO) {
-        String orderId = StringUtil.getUUID();
+        String orderId = KeyUtil.genUniqueKey();
         BigDecimal orderAmount = new BigDecimal(BigInteger.ZERO);
         //1.查询商品（数量，价格）
         for (OrderDetail orderDetail: orderDTO.getOrderDetailList()){
@@ -67,7 +68,7 @@ public class OrderServiceImpl implements OrderService{
             orderAmount = productInfo.getProductPrice().multiply(new BigDecimal(orderDetail.getProductQuantity())).add(orderAmount);
 
             //3.写入数据库（order_master和order_detail）
-            orderDetail.setDetailId(StringUtil.getUUID());
+            orderDetail.setDetailId(KeyUtil.genUniqueKey());
             orderDetail.setOrderId(orderId);
             BeanUtils.copyProperties(productInfo,orderDetail,new String[]{"createTime","updateTime"});
             orderDetailMapper.insert(orderDetail);

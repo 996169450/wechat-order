@@ -1,6 +1,7 @@
 package com.hnu.wechatorder.dao;
 
 import com.hnu.wechatorder.model.ProductInfo;
+import com.hnu.wechatorder.util.KeyUtil;
 import com.hnu.wechatorder.util.StringUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +27,7 @@ public class ProductInfoMapperTest {
     @Test
     public void insertTest(){
         ProductInfo productInfo = new ProductInfo();
-        productInfo.setProductId(StringUtil.getUUID());
+        productInfo.setProductId(KeyUtil.genUniqueKey());
         productInfo.setProductName("豆花小铺");
         productInfo.setProductPrice(new BigDecimal(3.0));
         productInfo.setProductStock(200);

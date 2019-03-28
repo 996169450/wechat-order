@@ -3,6 +3,7 @@ package com.hnu.wechatorder.dao;
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
 import com.hnu.wechatorder.model.OrderMaster;
+import com.hnu.wechatorder.util.KeyUtil;
 import com.hnu.wechatorder.util.StringUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +34,7 @@ public class OrderMasterMapperTest {
     @Test
     public void insertTest(){
         OrderMaster orderMaster = new OrderMaster();
-        orderMaster.setOrderId(StringUtil.getUUID());
+        orderMaster.setOrderId(KeyUtil.genUniqueKey());
         orderMaster.setBuyerName("秋香哥");
         orderMaster.setBuyerPhone("16487965413");
         orderMaster.setBuyerAddress("飞机场");

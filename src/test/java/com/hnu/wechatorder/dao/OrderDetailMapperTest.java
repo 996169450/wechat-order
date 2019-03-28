@@ -1,6 +1,7 @@
 package com.hnu.wechatorder.dao;
 
 import com.hnu.wechatorder.model.OrderDetail;
+import com.hnu.wechatorder.util.KeyUtil;
 import com.hnu.wechatorder.util.StringUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +28,7 @@ public class OrderDetailMapperTest {
     @Test
     public void insertTest(){
         OrderDetail orderDetail = new OrderDetail();
-        orderDetail.setDetailId(StringUtil.getUUID());
+        orderDetail.setDetailId(KeyUtil.genUniqueKey());
         orderDetail.setOrderId("f7f3ec566539483485ab67f51662436a");
         orderDetail.setProductId("6d4a82e249db4071a1290adf8272811e");
         orderDetail.setProductName("豆花小铺");
