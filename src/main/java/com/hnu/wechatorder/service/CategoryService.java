@@ -18,8 +18,8 @@ public interface CategoryService {
 
     List<ProductCategory> findByCategoryTypeList(List<Integer> categoryTypeList);
 
-    int addCategory(ProductCategory productCategory);
+    Integer addCategory(ProductCategory productCategory);
 
-    int updateCategory(ProductCategory productCategory);
+    Integer updateCategory(ProductCategory productCategory);
 
 }

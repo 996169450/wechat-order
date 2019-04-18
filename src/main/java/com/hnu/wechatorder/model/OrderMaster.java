@@ -2,12 +2,16 @@ package com.hnu.wechatorder.model;
 
 import com.hnu.wechatorder.enums.OrderStatusEnum;
 import com.hnu.wechatorder.enums.PayStatusEnum;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderMaster {
     /**订单id*/
     private String orderId;

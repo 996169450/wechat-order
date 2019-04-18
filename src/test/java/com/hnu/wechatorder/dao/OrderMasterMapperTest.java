@@ -5,6 +5,7 @@ import com.github.miemiedev.mybatis.paginator.domain.PageList;
 import com.hnu.wechatorder.model.OrderMaster;
 import com.hnu.wechatorder.util.KeyUtil;
 import com.hnu.wechatorder.util.StringUtil;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,12 @@ public class OrderMasterMapperTest {
         PageBounds pageBounds = new PageBounds(0,3);
         PageList<OrderMaster> orderMasterPageList = orderMasterMapper.findByBuyerOpenId(buyerOpenid, pageBounds);   //PageList本身就是一个ArrayList，查出来的数据都存在里面了
         System.out.print(orderMasterPageList.get(0).getBuyerName());
+    }
+
+    @Test
+    public void selectByPrimaryKeyTest(){
+        String orderId = "050dfa106c2d4ff4b2da57c04a2159b1";
+        OrderMaster orderMaster = orderMasterMapper.selectByPrimaryKey(orderId);
+        Assert.assertTrue("查找指定订单",orderMaster!=null);
     }
 }

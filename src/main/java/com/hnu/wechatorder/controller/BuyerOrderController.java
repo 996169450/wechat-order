@@ -46,7 +46,7 @@ public class BuyerOrderController {
     public ResultVO<Map<String,String>> create(@Valid OrderForm orderForm, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             log.error("【创建订单】参数不正确，orderForm={}",orderForm);
-            throw new SellException(ResultEnum.PARAM_REEOR.getCode(),bindingResult.getFieldError().getDefaultMessage());
+            throw new SellException(ResultEnum.PARAM_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
         }
         OrderDTO orderDTO = OrderForm2OrderDTO.convert(orderForm);
         if(CollectionUtils.isEmpty(orderDTO.getOrderDetailList())){
@@ -68,7 +68,7 @@ public class BuyerOrderController {
                                          @RequestParam(value = "size", defaultValue = "10") Integer size){
         if(StringUtils.isEmpty(openid)){
             log.error("【查询订单列表】openid为空");
-            throw new SellException(ResultEnum.PARAM_REEOR);
+            throw new SellException(ResultEnum.PARAM_ERROR);
         }
 
         PageBounds pageBounds = new PageBounds(page,size, Order.formString("update_time.desc"));
@@ -80,14 +80,14 @@ public class BuyerOrderController {
     //订单详情
     @GetMapping("/detail")
     public ResultVO<OrderDTO> detail(@RequestParam("openid") String openid,
-                                     @RequestParam("oderId") String orderId){
+                                     @RequestParam("orderId") String orderId){
         if(StringUtils.isEmpty(openid)){
             log.error("【查询订单详情】openid为空");
-            throw new SellException(ResultEnum.PARAM_REEOR);
+            throw new SellException(ResultEnum.PARAM_ERROR);
         }
         if(StringUtils.isEmpty(openid)){
             log.error("【查询订单详情】oderId为空");
-            throw new SellException(ResultEnum.PARAM_REEOR);
+            throw new SellException(ResultEnum.PARAM_ERROR);
         }
 
 //        //TODO 不安全的做法，需要对openid进行校验，之后改进
@@ -101,16 +101,16 @@ public class BuyerOrderController {
     //取消订单
     @PostMapping("/cancel")
     public ResultVO cancel(@RequestParam("openid") String openid,
-                           @RequestParam("oderId") String orderId){
+                           @RequestParam("orderId") String orderId){
         if(StringUtils.isEmpty(openid)){
             log.error("【取消订单】openid为空");
-            throw new SellException(ResultEnum.PARAM_REEOR);
+            throw new SellException(ResultEnum.PARAM_ERROR);
         }
-        if(StringUtils.isEmpty(openid)){
-            log.error("【取消订单】oderId为空");
-            throw new SellException(ResultEnum.PARAM_REEOR);
+        if(StringUtils.isEmpty(orderId)){
+            log.error("【取消订单】orderId为空");
+            throw new SellException(ResultEnum.PARAM_ERROR);
         }
-//        //TODO 不安全的做法，需要对openid进行校验，之后改进
+//        //TODO 不安全的做法，需要对openid进行校验，之后改进（已改进）
 //        OrderDTO orderDTO = orderService.findOne(orderId);
 //        orderService.cancel(orderDTO);  //直接调用取消方法就行了，因为如果取消有问题会抛异常，我们捕获就行了
         buyerService.cancelOrder(openid,orderId);

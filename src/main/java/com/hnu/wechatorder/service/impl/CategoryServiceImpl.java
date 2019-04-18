@@ -36,12 +36,12 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public int addCategory(ProductCategory productCategory) {
-        return productCategoryMapper.insert(productCategory);
+    public Integer addCategory(ProductCategory productCategory) {
+        return productCategoryMapper.insertSelective(productCategory);
     }
 
     @Override
-    public int updateCategory(ProductCategory productCategory) {
+    public Integer updateCategory(ProductCategory productCategory) {
         return productCategoryMapper.updateByPrimaryKeySelective(productCategory);
     }
 }

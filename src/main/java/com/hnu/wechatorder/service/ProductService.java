@@ -1,6 +1,7 @@
 package com.hnu.wechatorder.service;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.pagehelper.PageInfo;
 import com.hnu.wechatorder.dto.CartDTO;
 import com.hnu.wechatorder.model.ProductInfo;
 
@@ -20,13 +21,24 @@ public interface ProductService {
      */
     List<ProductInfo> findUpAll();
 
-    List<ProductInfo> findAll(PageBounds pageBounds);
+    /**
+     *分页查询所有商品
+     */
+    PageInfo<ProductInfo> findAll(Integer page, Integer size);
 
-    int addProduct(ProductInfo productInfo);
+    Integer addProduct(ProductInfo productInfo);
 
     //加库存
     void increaseStock(List<CartDTO> cartDTOList);
 
     //减库存
     void  decreaseStock(List<CartDTO> cartDTOList);
+
+    //上架
+    ProductInfo onSale(String productId);
+
+    //下架
+    ProductInfo offSale(String productId);
+
+    Integer saveOrUpdate(ProductInfo productInfo);
 }

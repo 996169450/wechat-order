@@ -21,4 +21,6 @@ public interface ProductCategoryMapper {
     List<ProductCategory> selectAll();
 
     List<ProductCategory> selectByCategoryTypeList(@Param("categoryTypeList")List<Integer> categoryTypeList);
+
+    Integer insertOrUpdate(ProductCategory productCategory);
 }

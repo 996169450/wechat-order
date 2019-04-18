@@ -160,4 +160,115 @@
   <select id="selectAll" resultType="ProductInfo">
     select * from product_info
   </select>
+
+  <!-- 保存或更新 -->
+  <insert id="insertOrUpdate" parameterType="ProductInfo">
+    <selectKey keyProperty="count" resultType="int" order="BEFORE">
+      select count(*) as count from product_info
+      where product_id = #{productId}
+    </selectKey>
+    <!-- 如果大于0则更新 -->
+    <if test="count>0">
+      update product_info
+      <set >
+        <if test="productName != null" >
+          product_name = #{productName,jdbcType=VARCHAR},
+        </if>
+        <if test="productPrice != null" >
+          product_price = #{productPrice,jdbcType=DECIMAL},
+        </if>
+        <if test="productStock != null" >
+          product_stock = #{productStock,jdbcType=INTEGER},
+        </if>
+        <if test="productDescription != null" >
+          product_description = #{productDescription,jdbcType=VARCHAR},
+        </if>
+        <if test="productIcon != null" >
+          product_icon = #{productIcon,jdbcType=VARCHAR},
+        </if>
+        <if test="productStatus != null" >
+          product_status = #{productStatus,jdbcType=TINYINT},
+        </if>
+        <if test="categoryType != null" >
+          category_type = #{categoryType,jdbcType=INTEGER},
+        </if>
+        <if test="createTime != null" >
+          create_time = #{createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          update_time = #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where product_id = #{productId,jdbcType=VARCHAR}
+    </if>
+    <!-- 如果等于0则保存 -->
+    <if test="count==0">
+      insert into product_info
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="productId != null" >
+          product_id,
+        </if>
+        <if test="productName != null" >
+          product_name,
+        </if>
+        <if test="productPrice != null" >
+          product_price,
+        </if>
+        <if test="productStock != null" >
+          product_stock,
+        </if>
+        <if test="productDescription != null" >
+          product_description,
+        </if>
+        <if test="productIcon != null" >
+          product_icon,
+        </if>
+        <if test="productStatus != null" >
+          product_status,
+        </if>
+        <if test="categoryType != null" >
+          category_type,
+        </if>
+        <if test="createTime != null" >
+          create_time,
+        </if>
+        <if test="updateTime != null" >
+          update_time,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="productId != null" >
+          #{productId,jdbcType=VARCHAR},
+        </if>
+        <if test="productName != null" >
+          #{productName,jdbcType=VARCHAR},
+        </if>
+        <if test="productPrice != null" >
+          #{productPrice,jdbcType=DECIMAL},
+        </if>
+        <if test="productStock != null" >
+          #{productStock,jdbcType=INTEGER},
+        </if>
+        <if test="productDescription != null" >
+          #{productDescription,jdbcType=VARCHAR},
+        </if>
+        <if test="productIcon != null" >
+          #{productIcon,jdbcType=VARCHAR},
+        </if>
+        <if test="productStatus != null" >
+          #{productStatus,jdbcType=TINYINT},
+        </if>
+        <if test="categoryType != null" >
+          #{categoryType,jdbcType=INTEGER},
+        </if>
+        <if test="createTime != null" >
+          #{createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateTime != null" >
+          #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+    </if>
+  </insert>
+
 </mapper>

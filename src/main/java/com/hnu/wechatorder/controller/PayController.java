@@ -27,21 +27,24 @@ public class PayController {
     public ModelAndView create(@RequestParam("orderId") String orderId,
                                @RequestParam("returnUrl") String returnUrl,
                                Map<String,Object> map){
-        //1.查询是否有次订单
+        //1.查询是否有此订单
         OrderDTO orderDTO = orderService.findOne(orderId);
         if(orderDTO == null){
             throw new SellException(ResultEnum.ORDER_NOT_EXIST);
         }
 
         //2.发起支付
-        PayResponse payResponse = payService.create(orderDTO);
+        /*PayResponse payResponse = payService.create(orderDTO);
         map.put("payResponse",payResponse);
         map.put("returnUrl",returnUrl);
 
-        return new ModelAndView("pay/create",map);
+        return new ModelAndView("pay/create",map);*/
+
+        //todo
+        return new ModelAndView("redirect:"+returnUrl);
     }
 
-    @PostMapping
+    @PostMapping("/notify")
     public ModelAndView notify(@RequestBody String notifyData){
         payService.notify(notifyData);
 

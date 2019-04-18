@@ -2,6 +2,7 @@ package com.hnu.wechatorder.dao;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.hnu.wechatorder.model.ProductInfo;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -20,6 +21,10 @@ public interface ProductInfoMapper {
 
     List<ProductInfo> selectByProductStatus(int productStatus);
 
-    List<ProductInfo> selectAll(PageBounds pageBounds);
+//    List<ProductInfo> selectAll(PageBounds pageBounds);
+
+    List<ProductInfo> selectAll();
+
+    Integer insertOrUpdate(ProductInfo productInfo);
 
 }

@@ -19,7 +19,7 @@
     order_id, buyer_name, buyer_phone, buyer_address, buyer_openid, order_amount, order_status, 
     pay_status, create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultType="OrderMaster" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from order_master
@@ -155,5 +155,9 @@
 
   <select id="findByBuyerOpenId" resultType="OrderMaster">
     SELECT * FROM order_master WHERE buyer_openid = #{buyerOpenid}
+  </select>
+
+  <select id="selectAll" resultType="OrderMaster">
+    SELECT * FROM order_master
   </select>
 </mapper>

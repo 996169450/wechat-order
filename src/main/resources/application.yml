@@ -12,11 +12,29 @@ spring:
   jackson:
     default-property-inclusion: non_null
 
+  freemarker:
+    template-loader-path: classpath:/templates/
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+#  mvc:
+#    static-path-pattern: /static/**
+
 mybatis:
   configuration:
       map-underscore-to-camel-case: true     #开启下划线转驼峰
   mapper-locations: classpath:mappers/*.xml
   type-aliases-package: com.hnu.wechatorder.model
+
+
+#pagehelper
+pagehelper:
+  helperDialect: mysql
+#  reasonable: true
+#  support-methods-arguments: true
+#  params: count=countSql
 
 logging:
   pattern:
@@ -37,5 +55,7 @@ wechat:
   mchId: 1409146202
   mchKey: c97da54ddaqdwxxxxxxxxxxxxxxxxxx
   keyPath: E:/weixin_cert/h5.p12
-  notifyUrl: http://sell.natpapp.cc/sell/pay/notify
-
+  notifyUrl: http://7iwqfa.natappfree.cc/sell/pay/notify
+  projectUrl: http://7iwqfa.natappfree.cc
+  templateId:
+    orderStatus: xvNRmK1pg3ZLeQraTi6Vcs_D7Wf3hELmLChTKMIIp78

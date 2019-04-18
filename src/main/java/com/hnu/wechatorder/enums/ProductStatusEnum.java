@@ -10,7 +10,7 @@ import lombok.Getter;
  * @Date 2018/12/22 21:41
  */
 @Getter
-public enum ProductStatusEnum {
+public enum ProductStatusEnum implements CodeEnum{
     UP(0, "上架"),                    //可以通过自定义字母UP,DOWN来找到对应的代码编号0,1
     DOWN(1,"下架");
 

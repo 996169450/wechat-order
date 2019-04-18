@@ -2,9 +2,11 @@ package com.hnu.wechatorder.service.impl;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.github.pagehelper.PageInfo;
 import com.hnu.wechatorder.dto.OrderDTO;
 import com.hnu.wechatorder.model.OrderDetail;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,5 +94,11 @@ public class OrderServiceImplTest {
         OrderDTO orderDTO = orderServiceIml.findOne(ORDER_ID);
         orderDTO =  orderServiceIml.paid(orderDTO);
         log.info("【支付订单】，result = {}",orderDTO);
+    }
+
+    @Test
+    public void findAll(){
+        PageInfo<OrderDTO> orderDTOPageInfo = orderServiceIml.findAll(0,6);
+        Assert.assertTrue("查询所有订单列表",orderDTOPageInfo.getList().size()>0);
     }
 }

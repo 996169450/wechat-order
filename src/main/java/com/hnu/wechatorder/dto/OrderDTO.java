@@ -1,10 +1,12 @@
 package com.hnu.wechatorder.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hnu.wechatorder.enums.OrderStatusEnum;
 import com.hnu.wechatorder.enums.PayStatusEnum;
 import com.hnu.wechatorder.model.OrderDetail;
+import com.hnu.wechatorder.util.EnumUtil;
 import com.hnu.wechatorder.util.serializer.Date2LongSerializer;
 import lombok.Data;
 
@@ -53,4 +55,14 @@ public class OrderDTO {
     private Date updateTime;
 
     private List<OrderDetail> orderDetailList;
+
+    @JsonIgnore  //对象序列化的时候会忽略这个字段
+    public OrderStatusEnum getOrderStatusEnum(){
+        return EnumUtil.getByCode(orderStatus,OrderStatusEnum.class);
+    }
+
+    @JsonIgnore
+    public PayStatusEnum getPayStatusEnum(){
+        return EnumUtil.getByCode(payStatus,PayStatusEnum.class);
+    }
 }

@@ -1,6 +1,8 @@
 package com.hnu.wechatorder.service.impl;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hnu.wechatorder.dao.ProductInfoMapper;
 import com.hnu.wechatorder.dto.CartDTO;
 import com.hnu.wechatorder.enums.ProductStatusEnum;
@@ -37,12 +39,20 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<ProductInfo> findAll(PageBounds pageBounds) {
-        return productInfoMapper.selectAll(pageBounds);
+    public PageInfo<ProductInfo> findAll(Integer page, Integer size) {
+        PageHelper.startPage(page,size);
+        List<ProductInfo> productInfoList = productInfoMapper.selectAll();
+        PageInfo<ProductInfo> productInfoPageInfo = new PageInfo<>(productInfoList);
+        return productInfoPageInfo;
     }
 
+//    @Override
+//    public List<ProductInfo> findAll(PageBounds pageBounds) {
+//        return productInfoMapper.selectAll(pageBounds);
+//    }
+
     @Override
-    public int addProduct(ProductInfo productInfo) {
+    public Integer addProduct(ProductInfo productInfo) {
         return productInfoMapper.insert(productInfo);
     }
 
@@ -78,5 +88,44 @@ public class ProductServiceImpl implements ProductService{
             productInfo.setProductStock(result);
             productInfoMapper.updateByPrimaryKey(productInfo);
         }
+    }
+
+    @Override
+    public ProductInfo onSale(String productId) {
+        ProductInfo productInfo = productInfoMapper.selectByPrimaryKey(productId);
+        if(productInfo == null){
+            throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+        }
+
+        if(productInfo.getProductStatusEnum() == ProductStatusEnum.UP){
+            throw new SellException(ResultEnum.PRODUCT_STATUS_ERROR);
+        }
+
+        //更新
+        productInfo.setProductStatus(ProductStatusEnum.UP.getCode());
+        productInfoMapper.updateByPrimaryKey(productInfo);
+        return productInfo;
+    }
+
+    @Override
+    public ProductInfo offSale(String productId) {
+        ProductInfo productInfo = productInfoMapper.selectByPrimaryKey(productId);
+        if(productInfo == null){
+            throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+        }
+
+        if(productInfo.getProductStatusEnum() == ProductStatusEnum.DOWN){
+            throw new SellException(ResultEnum.PRODUCT_STATUS_ERROR);
+        }
+
+        //更新
+        productInfo.setProductStatus(ProductStatusEnum.DOWN.getCode());
+        productInfoMapper.updateByPrimaryKey(productInfo);
+        return productInfo;
+    }
+
+    @Override
+    public Integer saveOrUpdate(ProductInfo productInfo) {
+        return productInfoMapper.insertOrUpdate(productInfo);
     }
 }

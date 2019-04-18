@@ -2,6 +2,7 @@ package com.hnu.wechatorder.service;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.github.pagehelper.PageInfo;
 import com.hnu.wechatorder.dto.OrderDTO;
 
 /**
@@ -29,4 +30,7 @@ public interface OrderService {
 
     /**支付订单*/
     OrderDTO paid(OrderDTO orderDTO);
+
+    /**查询所有订单*/
+    PageInfo<OrderDTO> findAll(Integer page, Integer size);
 }

@@ -2,6 +2,9 @@ package com.hnu.wechatorder.service.impl;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.github.miemiedev.mybatis.paginator.domain.Paginator;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hnu.wechatorder.converter.OrderMaster2OrderDTO;
 import com.hnu.wechatorder.dao.OrderDetailMapper;
 import com.hnu.wechatorder.dao.OrderMasterMapper;
@@ -191,5 +194,28 @@ public class OrderServiceImpl implements OrderService{
             throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
         }
         return orderDTO;
+    }
+
+    @Override
+    public PageInfo<OrderDTO> findAll(Integer page, Integer size) {
+/**
+        PageHelper.startPage(page,size);
+        List<OrderMaster> orderMasterList = orderMasterMapper.selectAll();             //这里返回的其实是一个Page对象，从PageInfo的源码可以看到对于Page和List的不同处理
+
+        List<OrderDTO> orderDTOList = OrderMaster2OrderDTO.convert(orderMasterList);   //这里做了一次数据转换，破坏了PageInfo的结构
+
+        PageInfo<OrderDTO> orderMasterPageInfo = new PageInfo<>(orderDTOList);
+
+        return orderMasterPageInfo;
+ */
+        PageHelper.startPage(page,size);
+        List<OrderMaster> orderMasterList = orderMasterMapper.selectAll();
+        PageInfo<OrderMaster> orderMasterPageInfo = new PageInfo<>(orderMasterList);
+
+        List<OrderDTO> orderDTOList = OrderMaster2OrderDTO.convert(orderMasterList);
+        PageInfo<OrderDTO> orderDTOPageInfo = new PageInfo<>(orderDTOList);
+
+        BeanUtils.copyProperties(orderMasterPageInfo,orderDTOPageInfo,"list");
+        return orderDTOPageInfo;
     }
 }
