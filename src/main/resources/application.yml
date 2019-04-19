@@ -55,7 +55,7 @@ wechat:
   mchId: 1409146202
   mchKey: c97da54ddaqdwxxxxxxxxxxxxxxxxxx
   keyPath: E:/weixin_cert/h5.p12
-  notifyUrl: http://7iwqfa.natappfree.cc/sell/pay/notify
-  projectUrl: http://7iwqfa.natappfree.cc
+  notifyUrl: http://79e447.natappfree.cc/sell/pay/notify
+  projectUrl: http://79e447.natappfree.cc
   templateId:
     orderStatus: xvNRmK1pg3ZLeQraTi6Vcs_D7Wf3hELmLChTKMIIp78

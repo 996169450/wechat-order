@@ -1,5 +1,6 @@
 package com.hnu.wechatorder.service.impl;
 
+import com.hnu.wechatorder.config.WechatAccountConfig;
 import com.hnu.wechatorder.dto.OrderDTO;
 import com.hnu.wechatorder.service.PushMessageService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,16 +16,19 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class PushMessageImpl implements PushMessageService {
+public class PushMessageServiceImpl implements PushMessageService {
 
     @Autowired
     private WxMpService wxMpService;
 
+    @Autowired
+    private WechatAccountConfig wechatAccountConfig;
+
     @Override
     public void orderStatusUpdatePush(OrderDTO orderDTO) {
         WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
-        wxMpTemplateMessage.setTemplateId("xvNRmK1pg3ZLeQraTi6Vcs_D7Wf3hELmLChTKMIIp78");
-        wxMpTemplateMessage.setToUser("oBpcB1B4LCY3wOIxs-DbQS9Y8DLc");
+        wxMpTemplateMessage.setTemplateId(wechatAccountConfig.getTemplateId().get("orderStatus"));
+        wxMpTemplateMessage.setToUser(orderDTO.getBuyerOpenid());
 
         List<WxMpTemplateData> data = Arrays.asList(
                 new WxMpTemplateData("first","小狗子马上给您送到。"),

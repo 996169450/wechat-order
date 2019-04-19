@@ -20,6 +20,8 @@ import com.hnu.wechatorder.model.OrderMaster;
 import com.hnu.wechatorder.model.ProductInfo;
 import com.hnu.wechatorder.service.OrderService;
 import com.hnu.wechatorder.service.ProductService;
+import com.hnu.wechatorder.service.PushMessageService;
+import com.hnu.wechatorder.service.WebSocket;
 import com.hnu.wechatorder.util.KeyUtil;
 import com.hnu.wechatorder.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -45,16 +47,22 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService{
 
     @Autowired
-    ProductInfoMapper productInfoMapper;
+    private ProductInfoMapper productInfoMapper;
 
     @Autowired
-    OrderDetailMapper orderDetailMapper;
+    private OrderDetailMapper orderDetailMapper;
 
     @Autowired
-    OrderMasterMapper orderMasterMapper;
+    private OrderMasterMapper orderMasterMapper;
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
+
+    @Autowired
+    private PushMessageService pushMessageService;
+
+    @Autowired
+    private WebSocket webSocket;
 
     @Override
     @Transactional    //由于productService.decreaseStock(cartDTOList)子方法里面设置了事务，这里就不用再次设置了，会传播过来
@@ -87,6 +95,10 @@ public class OrderServiceImpl implements OrderService{
         //4.扣库存
         List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream().map(e-> new CartDTO(e.getProductId(),e.getProductQuantity())).collect(Collectors.toList());
         productService.decreaseStock(cartDTOList);
+
+        //发送websocket消息
+        webSocket.sendMessage("你有新的订单");
+
         return orderDTO;
     }
 
@@ -166,13 +178,16 @@ public class OrderServiceImpl implements OrderService{
             log.error("【完结订单】更新失败，orderMaster={}",orderMaster);
             throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
         }
+
+        //推送微信模板消息
+        pushMessageService.orderStatusUpdatePush(orderDTO);
+
         return orderDTO;
     }
 
     @Override
     public OrderDTO paid(OrderDTO orderDTO) {
         //1.判断订单状态
-        //判断订单状态
         if(!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())){
             log.error("【支付订单】订单状态不正确，orderId={},orderStatus={}",orderDTO.getOrderId(),orderDTO.getOrderStatus());
             throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
@@ -185,7 +200,6 @@ public class OrderServiceImpl implements OrderService{
         }
 
         //3.修改支付状态
-        //修改订单状态
         orderDTO.setPayStatus(PayStatusEnum.SUCCESS.getCode());
         OrderMaster orderMaster = OrderMaster2OrderDTO.convert(orderDTO);
         int row = orderMasterMapper.updateByPrimaryKey(orderMaster);
