@@ -16,6 +16,9 @@ public interface CategoryService {
 
     List<ProductCategory> findAll();
 
+    /**
+     * 根据商品类目编号列表，查出所有对应的商品类目
+     */
     List<ProductCategory> findByCategoryTypeList(List<Integer> categoryTypeList);
 
     Integer addCategory(ProductCategory productCategory);

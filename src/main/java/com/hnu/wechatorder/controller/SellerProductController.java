@@ -1,7 +1,6 @@
 package com.hnu.wechatorder.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.hnu.wechatorder.enums.ResultEnum;
 import com.hnu.wechatorder.exception.SellException;
 import com.hnu.wechatorder.form.ProductForm;
 import com.hnu.wechatorder.model.ProductCategory;
@@ -9,7 +8,6 @@ import com.hnu.wechatorder.model.ProductInfo;
 import com.hnu.wechatorder.service.CategoryService;
 import com.hnu.wechatorder.service.ProductService;
 import com.hnu.wechatorder.util.KeyUtil;
-import com.hnu.wechatorder.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.jws.WebParam;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;

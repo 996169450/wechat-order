@@ -18,10 +18,7 @@ import com.hnu.wechatorder.exception.SellException;
 import com.hnu.wechatorder.model.OrderDetail;
 import com.hnu.wechatorder.model.OrderMaster;
 import com.hnu.wechatorder.model.ProductInfo;
-import com.hnu.wechatorder.service.OrderService;
-import com.hnu.wechatorder.service.ProductService;
-import com.hnu.wechatorder.service.PushMessageService;
-import com.hnu.wechatorder.service.WebSocket;
+import com.hnu.wechatorder.service.*;
 import com.hnu.wechatorder.util.KeyUtil;
 import com.hnu.wechatorder.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -63,6 +60,9 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private WebSocket webSocket;
+
+    @Autowired
+    private PayService payService;
 
     @Override
     @Transactional    //由于productService.decreaseStock(cartDTOList)子方法里面设置了事务，这里就不用再次设置了，会传播过来
@@ -157,7 +157,8 @@ public class OrderServiceImpl implements OrderService{
 
         //4.如果已支付，需要退款
         if(orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())){
-            //TODO
+            //todo
+//            payService.refund(orderDTO);
         }
         return orderDTO;
     }

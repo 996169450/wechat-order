@@ -32,6 +32,7 @@ public enum ResultEnum {
     PRODUCT_STATUS_ERROR(24,"商品状态不正确"),
     LOGIN_FAIL(25,"登陆失败，登陆信息不正确"),
     LOGOUT_SUCCESS(26,"登出成功"),
+    LOCK_FAIL(100,"加锁失败，目前购买人数太多")
     ;
 
     private Integer code;

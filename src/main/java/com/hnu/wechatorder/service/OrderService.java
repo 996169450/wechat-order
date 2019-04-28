@@ -28,7 +28,7 @@ public interface OrderService {
     /**完结订单*/
     OrderDTO finish(OrderDTO orderDTO);
 
-    /**支付订单*/
+    /**支付订单（仅修改状态）*/
     OrderDTO paid(OrderDTO orderDTO);
 
     /**查询所有订单*/

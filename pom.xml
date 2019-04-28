@@ -138,9 +138,17 @@
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 
+		<!--&lt;!&ndash;配置这个，就可以使用外部Tomcat容器&ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+			<!--<scope>provided</scope>-->
+		<!--</dependency>-->
+
 	</dependencies>
 
 	<build>
+		<finalName>sell</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

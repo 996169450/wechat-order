@@ -10,6 +10,7 @@ import com.hnu.wechatorder.enums.ResultEnum;
 import com.hnu.wechatorder.exception.SellException;
 import com.hnu.wechatorder.model.ProductInfo;
 import com.hnu.wechatorder.service.ProductService;
+import com.hnu.wechatorder.service.RedisLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,12 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService{
 
     @Autowired
-    ProductInfoMapper productInfoMapper;
+    private ProductInfoMapper productInfoMapper;
+
+    @Autowired
+    private RedisLock redisLock;
+
+    private static final int TIMEOUT = 10 * 1000;  //redis锁超时时间，10s
 
     @Override
     public ProductInfo findOne(String productId) {
@@ -72,21 +78,30 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     @Transactional
-    public void decreaseStock(List<CartDTO> cartDTOList) {
+    public void decreaseStock(List<CartDTO> cartDTOList) {  //这里在多线程时存在超卖问题，使用redis的锁机制来解决
         for (CartDTO cartDTO: cartDTOList){
+            //加锁，在这里加锁可以做到细粒度控制，只对添加到购物车的商品加锁(在查询之前就要加锁)
+            long time = System.currentTimeMillis() + TIMEOUT;
+            if (!redisLock.lock(cartDTO.getProductId(),String.valueOf(time))){
+                throw new SellException(ResultEnum.LOCK_FAIL);
+            }
+
             ProductInfo productInfo = productInfoMapper.selectByPrimaryKey(cartDTO.getProductId());
             if(productInfo == null){
                 throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
             }
 
             int result = productInfo.getProductStock() - cartDTO.getProductQuantity();
-            //TODO 这里在多线程时存在超卖问题，后面会使用redis的锁机制来解决
+
             if (result < 0) {
                 throw  new SellException(ResultEnum.PRODUCT_STOCK_ERROR);
             }
 
             productInfo.setProductStock(result);
             productInfoMapper.updateByPrimaryKey(productInfo);
+
+            //解锁
+            redisLock.unlock(cartDTO.getProductId(),String.valueOf(time));
         }
     }
 
