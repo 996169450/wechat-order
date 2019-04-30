@@ -90,7 +90,7 @@ public class BuyerOrderController {
             throw new SellException(ResultEnum.PARAM_ERROR);
         }
 
-//        //TODO 不安全的做法，需要对openid进行校验，之后改进
+        //不安全的做法，需要对openid进行校验，之后改进
 //        OrderDTO orderDTO = orderService.findOne(orderId);
         /**改进后的，对openid进行了校验*/
         OrderDTO orderDTO = buyerService.findOrderOne(openid,orderId);
@@ -110,7 +110,7 @@ public class BuyerOrderController {
             log.error("【取消订单】orderId为空");
             throw new SellException(ResultEnum.PARAM_ERROR);
         }
-//        //TODO 不安全的做法，需要对openid进行校验，之后改进（已改进）
+          //不安全的做法，需要对openid进行校验，之后改进（已改进）
 //        OrderDTO orderDTO = orderService.findOne(orderId);
 //        orderService.cancel(orderDTO);  //直接调用取消方法就行了，因为如果取消有问题会抛异常，我们捕获就行了
         buyerService.cancelOrder(openid,orderId);
