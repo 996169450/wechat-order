@@ -3,6 +3,7 @@ package com.hnu.wechatorder.view;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -12,7 +13,9 @@ import java.math.BigDecimal;
  * @Date 2018/12/23 11:41
  */
 @Data
-public class ProductInfoVO {
+public class ProductInfoVO implements Serializable {
+
+    private static final long serialVersionUID = 245582319082499280L;
 
     @JsonProperty("id")
     private  String productId;

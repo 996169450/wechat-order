@@ -5,6 +5,7 @@ import com.hnu.wechatorder.enums.ResultEnum;
 import com.hnu.wechatorder.exception.SellException;
 import com.hnu.wechatorder.service.OrderService;
 import com.hnu.wechatorder.service.PayService;
+import com.hnu.wechatorder.service.PushMessageService;
 import com.lly835.bestpay.model.PayResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,9 @@ public class PayController {
     @Autowired
     private PayService payService;
 
+    @Autowired
+    private PushMessageService pushMessageService;
+
     @GetMapping("/create")
     public ModelAndView create(@RequestParam("orderId") String orderId,
                                @RequestParam("returnUrl") String returnUrl,
@@ -34,13 +38,16 @@ public class PayController {
         }
 
         //2.发起支付
+        //todo
         /*PayResponse payResponse = payService.create(orderDTO);
         map.put("payResponse",payResponse);
         map.put("returnUrl",returnUrl);
 
         return new ModelAndView("pay/create",map);*/
 
-        //todo
+        //推送微信模板消息
+        pushMessageService.orderSuccessPush(orderDTO);
+
         return new ModelAndView("redirect:"+returnUrl);
     }
 

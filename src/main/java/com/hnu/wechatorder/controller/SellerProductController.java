@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -116,7 +118,9 @@ public class SellerProductController {
      * @return
      */
     @PostMapping("/save_or_update")
-    public ModelAndView save(@Valid ProductForm form,
+//    @CachePut(cacheNames = "product" , key = "123")    //每次访问都会先执行方法，然后把return结果缓存
+    @CacheEvict(cacheNames = "product" , key = "123")    //每次访问都会清空缓存
+    public ModelAndView saveOrUpdate(@Valid ProductForm form,
                              BindingResult bindingResult,
                              Map<String,Object> map){
         if (bindingResult.hasErrors()){

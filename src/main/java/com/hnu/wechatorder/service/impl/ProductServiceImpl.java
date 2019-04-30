@@ -83,7 +83,7 @@ public class ProductServiceImpl implements ProductService{
             //加锁，在这里加锁可以做到细粒度控制，只对添加到购物车的商品加锁(在查询之前就要加锁)
             long time = System.currentTimeMillis() + TIMEOUT;
             if (!redisLock.lock(cartDTO.getProductId(),String.valueOf(time))){
-                throw new SellException(ResultEnum.LOCK_FAIL);
+                throw new SellException(ResultEnum.LOCK_FAIL);   //获取锁失败的话，直接抛异常，返回一个处理结果
             }
 
             ProductInfo productInfo = productInfoMapper.selectByPrimaryKey(cartDTO.getProductId());

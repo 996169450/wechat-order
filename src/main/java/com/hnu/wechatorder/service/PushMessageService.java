@@ -9,4 +9,9 @@ public interface PushMessageService {
      * @param orderDTO
      */
     void orderStatusUpdatePush(OrderDTO orderDTO);
+
+    /**
+     * 下单成功通知
+     */
+    void orderSuccessPush(OrderDTO orderDTO);
 }
