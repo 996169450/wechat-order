@@ -43,6 +43,7 @@ logging:
   file: /log/sell.log
   level:
     com.hnu.wechatorder.dao: error
+    com.hnu.wechatorder.service.impl: error
 
 server:                      #url前缀
   servlet:
@@ -55,8 +56,9 @@ wechat:
   mchId: 1409146202
   mchKey: c97da54ddaqdwxxxxxxxxxxxxxxxxxx
   keyPath: E:/weixin_cert/h5.p12
-  notifyUrl: http://39.106.95.46/sell/pay/notify
-  projectUrl: http://39.106.95.46
+  notifyUrl: http://wsililovecqf.top/sell/pay/notify
+  projectUrl: http://wsililovecqf.top
   templateId:
     orderStatus: xvNRmK1pg3ZLeQraTi6Vcs_D7Wf3hELmLChTKMIIp78
     orderSuccess: BGwmApYhpVQz6bFr6nJXDenmyImAZPTG2pKDe2pA0lc
+    cancelOrder: S-mxDjYLWYv4mNbpY0cETf7h5Om91fzov2noZjc99J0

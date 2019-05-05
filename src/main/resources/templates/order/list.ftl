@@ -57,19 +57,19 @@
                             <#if orderDTOPageInfo.hasPreviousPage == false>
                                 <li class="disabled"><a href="#">上一页</a></li>
                             <#else >
-                                <li><a href="/sell/seller/order/list?page=${orderDTOPageInfo.prePage}&size=${orderDTOPageInfo.size}">上一页</a></li>
+                                <li><a href="/sell/seller/order/list?page=${orderDTOPageInfo.prePage}&size=${orderDTOPageInfo.pageSize}">上一页</a></li>
                             </#if>
                             <#list orderDTOPageInfo.navigatepageNums as index>
                                 <#if orderDTOPageInfo.pageNum == index>
                                     <li class="disabled"><a href="#">${index}</a></li>
                                 <#else >
-                                    <li><a href="/sell/seller/order/list?page=${index}&size=${orderDTOPageInfo.size}">${index}</a></li>
+                                    <li><a href="/sell/seller/order/list?page=${index}&size=${orderDTOPageInfo.pageSize}">${index}</a></li>
                                 </#if>
                             </#list>
                             <#if orderDTOPageInfo.hasNextPage == false>
                                 <li class="disabled"><a href="#">下一页</a> </li>
                             <#else >
-                                <li><a href="/sell/seller/order/list?page=${orderDTOPageInfo.nextPage}&size=${orderDTOPageInfo.size}">下一页</a></li>
+                                <li><a href="/sell/seller/order/list?page=${orderDTOPageInfo.nextPage}&size=${orderDTOPageInfo.pageSize}">下一页</a></li>
                             </#if>
                         </ul>
                     </div>
@@ -107,7 +107,7 @@
     <script>
         var websocket = null;
         if ('WebSocket' in window){
-            websocket = new WebSocket('ws://79e447.natappfree.cc/sell/webSocket');
+            websocket = new WebSocket('ws://39.106.95.46:8080/sell/webSocket');
         }else (
             alert('该浏览器不支持websocket！')
         );

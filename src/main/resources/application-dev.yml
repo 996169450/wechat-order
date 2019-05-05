@@ -49,14 +49,16 @@ server:                      #url前缀
     context-path: /sell
 
 
+
 wechat:
   mpAppId: wxc1db73949ccdeda5
   mpAppSecret: 3f23472ffac3ff5859de597c0fae708d
   mchId: 1409146202
   mchKey: c97da54ddaqdwxxxxxxxxxxxxxxxxxx
   keyPath: E:/weixin_cert/h5.p12
-  notifyUrl: http://79e447.natappfree.cc/sell/pay/notify
-  projectUrl: http://79e447.natappfree.cc
+  notifyUrl: http://wsililovecqf.top/sell/pay/notify
+  projectUrl: http://wsililovecqf.top
   templateId:
     orderStatus: xvNRmK1pg3ZLeQraTi6Vcs_D7Wf3hELmLChTKMIIp78
     orderSuccess: BGwmApYhpVQz6bFr6nJXDenmyImAZPTG2pKDe2pA0lc
+    cancelOrder: S-mxDjYLWYv4mNbpY0cETf7h5Om91fzov2noZjc99J0

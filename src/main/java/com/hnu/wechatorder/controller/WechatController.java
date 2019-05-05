@@ -8,13 +8,18 @@ import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.TreeSet;
 
 @Controller
 @RequestMapping("/wechat")
@@ -27,6 +32,11 @@ public class WechatController {
     @Autowired
     private WechatAccountConfig wechatAccountConfig;
 
+    /**
+     * 换取code
+     * @param returnUrl  {前端配置的sellUrl}/#/
+     * @return
+     */
     @GetMapping("/authorize")
     public String authorize(@RequestParam("returnUrl") String returnUrl){
         //1.配置
@@ -37,6 +47,12 @@ public class WechatController {
         return "redirect:"+redirectUrl;
     }
 
+    /**
+     * 通过code换取openid
+     * @param code
+     * @param returnUrl {前端配置的sellUrl}/#/
+     * @return
+     */
     @GetMapping("/userInfo")
     public String userInfo(@RequestParam("code") String code,@RequestParam("state") String returnUrl){
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken;
@@ -47,6 +63,52 @@ public class WechatController {
             throw new SellException(ResultEnum.WECHAT_MP_ERROR);
         }
         String openid = wxMpOAuth2AccessToken.getOpenId();
-        return "redirect:"+returnUrl+"?openid="+openid;
+        return "redirect:"+returnUrl+"?openid="+openid;            /**"redirect:"重定向的地址不带http://协议会自动带上当前路径前缀*/
     }
+
+    /**
+     *验证服务器，用于在公众号上与用户接发消息
+     * @param request
+     * @param response
+     */
+    @GetMapping("/verify")
+    public void index(HttpServletRequest request, HttpServletResponse response){
+        log.info("微信接入服务器");
+        String signature = request.getParameter("signature");
+        String timestamp = request.getParameter("timestamp");
+        String nonce = request.getParameter("nonce");
+        String token = "weixin";
+        String echostr = request.getParameter("echostr");
+        if (verifyInfo(signature, timestamp, nonce, token)) {
+            log.info("echostr为:{}", echostr);
+            if (echostr != null) {
+                try {
+                    response.getWriter().write(echostr);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            log.info("signature为:{}", signature);
+            log.info("timestamp为:{}", timestamp);
+            log.info("nonce为:{}", nonce);
+            log.info("token为:{}", token);
+        }
+    }
+
+    public Boolean verifyInfo(String signature, String timestamp, String nonce,
+                              String token) {
+        TreeSet<String> set = new TreeSet<>();
+        set.add(token);
+        set.add(timestamp);
+        set.add(nonce);
+        StringBuilder sBuilder = new StringBuilder();
+        for (String item : set) {
+            sBuilder.append(item);
+        }
+        String sign = DigestUtils.sha1Hex(sBuilder.toString());
+        return signature.equalsIgnoreCase(sign);
+    }
+
+
 }

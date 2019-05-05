@@ -14,4 +14,9 @@ public interface PushMessageService {
      * 下单成功通知
      */
     void orderSuccessPush(OrderDTO orderDTO);
+
+    /**
+     *取消订单通知
+     */
+    void cancelOrderPush(OrderDTO orderDTO);
 }

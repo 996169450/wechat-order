@@ -223,7 +223,7 @@ public class OrderServiceImpl implements OrderService{
 
         return orderMasterPageInfo;
  */
-        PageHelper.startPage(page,size);
+        PageHelper.startPage(page,size,"update_time desc");
         List<OrderMaster> orderMasterList = orderMasterMapper.selectAll();
         PageInfo<OrderMaster> orderMasterPageInfo = new PageInfo<>(orderMasterList);
 

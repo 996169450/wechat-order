@@ -68,4 +68,26 @@ public class PushMessageServiceImpl implements PushMessageService {
             log.error("【微信模板消息】发送失败:{}",e);
         }
     }
+
+    @Override
+    public void cancelOrderPush(OrderDTO orderDTO) {
+        WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
+        wxMpTemplateMessage.setTemplateId(wechatAccountConfig.getTemplateId().get("cancelOrder"));
+        wxMpTemplateMessage.setToUser(orderDTO.getBuyerOpenid());
+        List<WxMpTemplateData> data = Arrays.asList(
+                new WxMpTemplateData("first","订单取消成功"),
+                new WxMpTemplateData("keyword1","微信点餐"),
+                new WxMpTemplateData("keyword2","13164653665"),
+                new WxMpTemplateData("keyword3",orderDTO.getOrderId()),
+                new WxMpTemplateData("keyword4",orderDTO.getOrderStatusEnum().getMessage()),
+                new WxMpTemplateData("keyword5","￥" + orderDTO.getOrderAmount()),
+                new WxMpTemplateData("remark","欢迎再来！")
+        );
+        wxMpTemplateMessage.setData(data);
+        try {
+            wxMpService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
+        } catch (WxErrorException e) {
+            log.error("【微信模板消息】发送失败:{}",e);
+        }
+    }
 }

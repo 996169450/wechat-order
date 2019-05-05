@@ -6,7 +6,7 @@ import com.hnu.wechatorder.exception.SellException;
 import com.hnu.wechatorder.service.OrderService;
 import com.hnu.wechatorder.service.PayService;
 import com.hnu.wechatorder.service.PushMessageService;
-import com.lly835.bestpay.model.PayResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +16,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/pay")
+@Slf4j
 public class PayController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class PayController {
 
     @GetMapping("/create")
     public ModelAndView create(@RequestParam("orderId") String orderId,
-                               @RequestParam("returnUrl") String returnUrl,
+                               @RequestParam("returnUrl") String returnUrl,   // http://wsililovecqf.top/#/order/1556848243266718011
                                Map<String,Object> map){
         //1.查询是否有此订单
         OrderDTO orderDTO = orderService.findOne(orderId);
@@ -44,6 +45,9 @@ public class PayController {
         map.put("returnUrl",returnUrl);
 
         return new ModelAndView("pay/create",map);*/
+
+        //修改支付状态
+        orderService.paid(orderDTO);
 
         //推送微信模板消息
         pushMessageService.orderSuccessPush(orderDTO);

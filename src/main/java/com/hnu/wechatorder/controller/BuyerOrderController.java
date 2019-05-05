@@ -10,6 +10,7 @@ import com.hnu.wechatorder.exception.SellException;
 import com.hnu.wechatorder.form.OrderForm;
 import com.hnu.wechatorder.service.BuyerService;
 import com.hnu.wechatorder.service.OrderService;
+import com.hnu.wechatorder.service.PushMessageService;
 import com.hnu.wechatorder.util.ResultUtil;
 import com.hnu.wechatorder.view.ResultVO;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,9 @@ public class BuyerOrderController {
 
     @Autowired
     private BuyerService buyerService;
+
+    @Autowired
+    private PushMessageService pushMessageService;
 
     //创建订单
     @PostMapping("/create")
@@ -113,7 +117,11 @@ public class BuyerOrderController {
           //不安全的做法，需要对openid进行校验，之后改进（已改进）
 //        OrderDTO orderDTO = orderService.findOne(orderId);
 //        orderService.cancel(orderDTO);  //直接调用取消方法就行了，因为如果取消有问题会抛异常，我们捕获就行了
-        buyerService.cancelOrder(openid,orderId);
+        OrderDTO orderDTO = buyerService.cancelOrder(openid,orderId);
+
+        //推送微信模板消息
+        pushMessageService.cancelOrderPush(orderDTO);
+
         return ResultUtil.success();
     }
 }

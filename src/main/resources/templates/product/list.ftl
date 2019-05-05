@@ -61,19 +61,19 @@
                             <#if productInfoPageInfo.hasPreviousPage == false>
                                 <li class="disabled"><a href="#">上一页</a></li>
                             <#else >
-                                <li><a href="/sell/seller/product/list?page=${productInfoPageInfo.prePage}&size=${productInfoPageInfo.size}">上一页</a></li>
+                                <li><a href="/sell/seller/product/list?page=${productInfoPageInfo.prePage}&size=${productInfoPageInfo.pageSize}">上一页</a></li>
                             </#if>
                             <#list productInfoPageInfo.navigatepageNums as index>
                                 <#if productInfoPageInfo.pageNum == index>
                                     <li class="disabled"><a href="#">${index}</a></li>
                                 <#else >
-                                    <li><a href="/sell/seller/product/list?page=${index}&size=${productInfoPageInfo.size}">${index}</a></li>
+                                    <li><a href="/sell/seller/product/list?page=${index}&size=${productInfoPageInfo.pageSize}">${index}</a></li>
                                 </#if>
                             </#list>
                             <#if productInfoPageInfo.hasNextPage == false>
                                 <li class="disabled"><a href="#">下一页</a> </li>
                             <#else >
-                                <li><a href="/sell/seller/product/list?page=${productInfoPageInfo.nextPage}&size=${productInfoPageInfo.size}">下一页</a></li>
+                                <li><a href="/sell/seller/product/list?page=${productInfoPageInfo.nextPage}&size=${productInfoPageInfo.pageSize}">下一页</a></li>
                             </#if>
                         </ul>
                     </div>

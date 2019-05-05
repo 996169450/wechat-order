@@ -22,7 +22,6 @@ public class OrderForm {
     /**
      * 买家手机号
      */
-    @NotEmpty(message = "手机号必填")
     private String phone;
 
     /**
