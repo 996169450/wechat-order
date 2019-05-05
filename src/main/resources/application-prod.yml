@@ -42,8 +42,7 @@ logging:
 #  path: /log/
   file: /log/sell.log
   level:
-    com.hnu.wechatorder.dao: error
-    com.hnu.wechatorder.service.impl: error
+    com.hnu.wechatorder: error
 
 server:                      #url前缀
   servlet:
